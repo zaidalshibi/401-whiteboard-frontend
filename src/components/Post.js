@@ -52,7 +52,7 @@ function Post ( props ) {
                             <AddCommentForm postId={post.id} getData={getData} />
                         </div>
                         <button className="signout" onClick={() => {
-                            localStorage.setItem( 'token', false );
+                            localStorage.clear();
                             window.location.reload();
                         }}>Sign out</button>
                     </div>
