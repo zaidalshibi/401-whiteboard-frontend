@@ -4,6 +4,7 @@ import './App.css';
 import { useState } from "react";
 import React from 'react';
 
+
 function App() {
   const [rerender, setRerender] = useState(false);
   const handleRerender = () => {
@@ -11,8 +12,8 @@ function App() {
   };
   return (
     <div className="App">
-      <AddPostForm getData={handleRerender}/>
-      <Post rerender={rerender}/>
+        <AddPostForm getData={handleRerender}/>
+        <Post rerender={rerender}/>
     </div>
   );
 }
