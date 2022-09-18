@@ -11,7 +11,7 @@
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-.add-comment-form , .post-class{
+.add-comment-form , .post-class, .signup, .signin{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,4 +37,13 @@ div label, input{
     display: block;
     justify-content: center;
     align-items: center;
+}
+
+.signout {
+    margin: 10px;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    background-color: black;
 }
