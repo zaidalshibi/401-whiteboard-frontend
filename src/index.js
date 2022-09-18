@@ -11,9 +11,9 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Signin />} />
-      <Route exact path='/signin' element={<Signin />} />
-      <Route exact path='/signup' element={<Signup />} />
-      {localStorage.getItem('token') ? <Route exact path='/posts' element={<App />} /> : <Route exact path='/posts' element={<Signin />} />}
+      <Route path='/signin' element={<Signin />} />
+      <Route path='/signup' element={<Signup />} />
+      {localStorage.getItem('token') ? <Route  path='/posts' element={<App />} /> : <Route  path='/posts' element={<Signin />} />}
     </Routes>
   </BrowserRouter>
 );
