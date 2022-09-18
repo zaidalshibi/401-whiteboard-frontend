@@ -42,7 +42,7 @@ function AddPostForm ( props ) {
                     </div>
                 </form>
                 <button className="signout" onClick={() => {
-                    localStorage.clear();
+                    localStorage.setItem( 'token', false );
                     window.location.reload();
                 }}>Sign out</button>
             </div>
