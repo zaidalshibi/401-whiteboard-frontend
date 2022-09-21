@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import cookies from "react-cookies";
 
 function Signup() {
     const handleSubmit = async (e) => {
@@ -18,7 +18,7 @@ function Signup() {
             user
         ).then( (res) => {
             if (res.status === 200) {
-                localStorage.setItem('token', res.data.token);
+                cookies.save('token', res.data.token);
                 window.location.href = '/posts';
             } 
         }).catch( (err) => {

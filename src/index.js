@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Signup from './components/Signup';
 import Signin from './components/Signin';
+import cookies from 'react-cookies';
 
 const root = ReactDOM.createRoot( document.getElementById( 'root' ) );
 root.render(
@@ -13,7 +14,7 @@ root.render(
       <Route path="/" element={<Signin />} />
       <Route path='/signin' element={<Signin />} />
       <Route path='/signup' element={<Signup />} />
-      {localStorage.getItem('token') ? <Route  path='/posts' element={<App />} /> : <Route  path='/posts' element={<Signin />} />}
+      {cookies.load('token') ? <Route  path='/posts' element={<App />} /> : <Route  path='/posts' element={<Signin />} />}
     </Routes>
   </BrowserRouter>
 );

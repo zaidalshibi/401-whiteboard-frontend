@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-
+import  cookies  from "react-cookies";
 
 function AddPostForm ( props ) {
     const handleSubmit = async ( e ) => {
@@ -12,6 +12,7 @@ function AddPostForm ( props ) {
             'title': e.target.title.value,
             'content': e.target.content.value,
             'img': e.target.img.value,
+            'userID': cookies.load( 'user_id' ),
         };
         await axios.post(
             `https://whiteboarding-zaid.herokuapp.com/post`,
@@ -42,8 +43,8 @@ function AddPostForm ( props ) {
                     </div>
                 </form>
                 <button className="signout" onClick={() => {
-                    localStorage.clear();
-                    window.location.reload();
+                    cookies.remove();
+                    window.location.href = '/';
                 }}>Sign out</button>
             </div>
         </>

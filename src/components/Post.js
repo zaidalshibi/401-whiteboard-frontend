@@ -3,19 +3,19 @@ import { useEffect } from "react";
 import { useState } from "react";
 import AddCommentForm from "./Add-comment-form";
 import React from 'react';
+import cookies from 'react-cookies';
 
 
 function Post ( props ) {
     const [ post, setPost ] = useState( [] );
-    const token = localStorage.getItem( 'token' ).toString();
-    
     const getData = async () => {
-        const response = await axios.get( `https://whiteboarding-zaid.herokuapp.com/post` , {
-            headers: {
-                'Authorization': `Bearer ${token}`
-                }
-                } );
-        setPost( response.data.posts );
+        await axios.get( `https://whiteboarding-zaid.herokuapp.com/post` )
+            .then( ( res ) => {
+                setPost( res.data );
+            } ).catch( ( err ) => {
+                console.log( err );
+            } );
+
     };
 
     const handleDelete = async ( id ) => {
@@ -25,7 +25,7 @@ function Post ( props ) {
 
     useEffect( () => {
         getData();
-    }, [props.rerender] );
+    }, [ props.rerender ] );
     return (
         <>
             {post && post.map( ( post, idx ) => {
@@ -34,6 +34,7 @@ function Post ( props ) {
                         <img src={post.img} alt={post.title} style={{ width: "15rem" }} />
                         <div className="card-body">
                             <h1 className="card-title">{post.title}</h1>
+                            <h3> post by {post.user.username}</h3>
                             <p className="card-text">{post.content}</p>
                         </div>
                         <div>
@@ -42,13 +43,14 @@ function Post ( props ) {
                             }}>delete post</button>
                         </div>
                         <div>
-                            {post.Comments &&
+                            {post.comments &&
                                 <h2>Comments</h2>
                             }
-                            {post.Comments && post.Comments.map( ( comment, idx ) => {
+                            {post.comments && post.comments.map( ( comment, idx ) => {
                                 return (
                                     <div className="card" style={{ justifyContent: 'center', margin: '1rem' }} key={idx}>
                                         <div className="card-body">
+                                            <h3 className="card-title">comment by : {comment.user.username}</h3>
                                             <p className="card-text">{comment.content}</p>
                                         </div>
                                     </div>
@@ -58,8 +60,8 @@ function Post ( props ) {
                             <AddCommentForm postId={post.id} getData={getData} />
                         </div>
                         <button className="signout" onClick={() => {
-                            localStorage.clear();
-                            window.location.reload();
+                            cookies.remove( )
+                            window.location.replace( '/' );
                         }}>Sign out</button>
                     </div>
                 );
