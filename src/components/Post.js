@@ -27,7 +27,7 @@ function Post ( props ) {
         getData();
     }, [ props.rerender ] );
     return (
-        <>
+        <>  {!post && <h1>No posts right now</h1>}
             {post && post.map( ( post, idx ) => {
                 return (
                     <div className="post-class" style={{ justifyContent: 'center', margin: '1rem' }} key={idx}>
@@ -43,6 +43,7 @@ function Post ( props ) {
                             }}>delete post</button>
                         </div>
                         <div>
+                            {!post.comments && <h1>No comments right now</h1>}
                             {post.comments &&
                                 <h2>Comments</h2>
                             }
