@@ -19,6 +19,7 @@ function Signup() {
         ).then( (res) => {
             if (res.status === 200) {
                 cookies.save('token', res.data.token);
+                cookies.save('user_id', res.data.user.id);
                 window.location.href = '/posts';
             } 
         }).catch( (err) => {

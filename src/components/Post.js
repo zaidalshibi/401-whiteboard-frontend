@@ -60,7 +60,8 @@ function Post ( props ) {
                             <AddCommentForm postId={post.id} getData={getData} />
                         </div>
                         <button className="signout" onClick={() => {
-                            cookies.remove( )
+                            cookies.remove( 'token' );
+                            cookies.remove( 'user_id' );
                             window.location.replace( '/' );
                         }}>Sign out</button>
                     </div>
