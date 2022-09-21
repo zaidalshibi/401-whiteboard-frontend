@@ -7,8 +7,14 @@ import React from 'react';
 
 function Post ( props ) {
     const [ post, setPost ] = useState( [] );
+    const token = localStorage.getItem( 'token' ).toString();
+    
     const getData = async () => {
-        const response = await axios.get( `https://whiteboarding-zaid.herokuapp.com/post` );
+        const response = await axios.get( `https://whiteboarding-zaid.herokuapp.com/post` , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+                }
+                } );
         setPost( response.data.posts );
     };
 
@@ -19,7 +25,7 @@ function Post ( props ) {
 
     useEffect( () => {
         getData();
-    }, [ props.rerender ] );
+    }, [props.rerender] );
     return (
         <>
             {post && post.map( ( post, idx ) => {

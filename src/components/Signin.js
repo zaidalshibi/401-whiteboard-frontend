@@ -20,7 +20,7 @@ function Signin() {
             }
         ).then ( (res) => {
             if (res.status === 200) {
-                localStorage.setItem('token', true);
+                localStorage.setItem('token', res.data.token);
                 window.location.href = '/posts';
             }
         } ).catch( (err) => {
