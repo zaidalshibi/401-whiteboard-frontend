@@ -20,6 +20,7 @@ function Signup() {
             if (res.status === 200) {
                 cookies.save('token', res.data.token);
                 cookies.save('user_id', res.data.user.id);
+                cookies.save('username', res.data.user.username);
                 window.location.href = '/posts';
             } 
         }).catch( (err) => {
