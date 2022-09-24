@@ -63,8 +63,9 @@ function Post ( props ) {
                         <button className="signout" onClick={() => {
                             cookies.remove( 'token' );
                             cookies.remove( 'user_id' );
+                            cookies.remove('username');
                             window.location.replace( '/' );
-                        }}>Sign out</button>
+                        }}>Sign out {cookies.load('username')}</button>
                     </div>
                 );
             }

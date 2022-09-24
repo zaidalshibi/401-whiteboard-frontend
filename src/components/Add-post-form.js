@@ -45,8 +45,9 @@ function AddPostForm ( props ) {
                 <button className="signout" onClick={() => {
                     cookies.remove('token');
                     cookies.remove('user_id');
+                    cookies.remove('username');
                     window.location.href = '/';
-                }}>Sign out</button>
+                }}>Sign out {cookies.load('username')}</button>
             </div>
         </>
     );
