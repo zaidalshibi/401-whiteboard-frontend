@@ -16,7 +16,11 @@ function AddPostForm ( props ) {
         };
         await axios.post(
             `https://whiteboarding-zaid.herokuapp.com/post`,
-            post
+            post, {
+                headers: {
+                    'Authorization': `bearer ${cookies.load('token')}`
+                }
+            }
         ).then( () => {
             props.getData();
         } );
@@ -46,7 +50,8 @@ function AddPostForm ( props ) {
                     cookies.remove('token');
                     cookies.remove('user_id');
                     cookies.remove('username');
-                    window.location.href = '/';
+                    cookies.remove('role');
+                    window.location.href = '/'
                 }}>Sign out {cookies.load('username')}</button>
             </div>
         </>
