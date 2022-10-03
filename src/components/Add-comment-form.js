@@ -1,18 +1,20 @@
 import axios from "axios";
 import React from 'react';
-import  cookies  from "react-cookies";
+import { useUser } from "../Context/UserContext";
 
 
 function AddCommentForm ( props ) {
+    const { user } = useUser();
     const handleSubmit = async ( e ) => {
         e.preventDefault();
         const comment = {
             'content': e.target.content.value,
         };
         await axios.post(
-            `https://whiteboarding-zaid.herokuapp.com/comment/${props.postId}/${cookies.load( 'user_id' )}`,
+            `https://whiteboarding-zaid.herokuapp.com/comment/${props.postId}/${user.user_id}`,
             comment
         ).then( () => {
+            console.log( 'comment added' );
             props.getData();
         } );
     };
