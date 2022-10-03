@@ -1,40 +1,13 @@
-import axios from "axios";
-import cookies from "react-cookies";
+import { useUser } from "../Context/UserContext";
 
 function Signup () {
-    const handleSubmit = async ( e ) => {
-        e.preventDefault();
-        if ( e.target.password.value !== e.target.confirmPassword.value ) {
-            alert( 'Passwords do not match' );
-            return;
-        } else {
-            const user = {
-                'username': e.target.username.value,
-                'password': e.target.password.value,
-                'email': e.target.email.value,
-                'role': e.target.role.value
-            };
-            await axios.post(
-                `https://whiteboarding-zaid.herokuapp.com/signup`,
-                user
-            ).then( ( res ) => {
-                if ( res.status === 200 ) {
-                    cookies.save( 'token', res.data.token );
-                    cookies.save( 'user_id', res.data.user.id );
-                    cookies.save( 'username', res.data.user.username );
-                    cookies.save( 'role', res.data.user.role );
-                    window.location.href = '/posts';
-                }
-            } ).catch( ( err ) => {
-                alert( 'Username or email already exists' );
-            } );
-        };
-    };
+    const { handleSignUp } = useUser();
+
     return (
         <div className="signup">
             <h1>Sign up</h1>
             <h2>Please sign in or sign up to see the posts</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={( e ) => handleSignUp( e )}>
                 <div className="form-control">
                     <label htmlFor="username">Username</label>
                     <input type="text" name="username" id="username" />

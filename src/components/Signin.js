@@ -1,41 +1,16 @@
-import axios from "axios";
-import base64 from "base-64";
-import  cookies  from "react-cookies";
+// import axios from "axios";
+// import base64 from "base-64";
+// import  cookies  from "react-cookies";
+import { useUser } from "../Context/UserContext";
 
-function Signin() {
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const user = {
-            'username': e.target.username.value,
-            'password': e.target.password.value,
-        };
-        const encoded = base64.encode(`${user.username}:${user.password}`);
-        await axios.post(
-            `https://whiteboarding-zaid.herokuapp.com/signin`,
-            {},
-            {
-                headers: {
-                    'Authorization': `Basic ${encoded}`
-                }
-            }
-        ).then ( (res) => {
-            if (res.status === 200) {
-                cookies.save('token', res.data.token);
-                cookies.save('user_id', res.data.user.id);
-                cookies.save('username', res.data.user.username);
-                cookies.save('role', res.data.user.role);
-                window.location.href = '/posts'
-            }
-        } ).catch( (err) => {
-            alert('Invalid Login');
-        }
-        );
-    };
-    return ( 
+function Signin () {
+    const { handleSignIn } = useUser();
+
+    return (
         <div className="signin">
             <h1>Sign in</h1>
             <h2>Please sign in or sign up to see the posts</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={( e ) => handleSignIn( e )}>
                 <div className="form-control">
                     <label htmlFor="username">Username</label>
                     <input type="text" name="username" id="username" />

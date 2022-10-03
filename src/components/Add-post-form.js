@@ -1,8 +1,10 @@
 import axios from "axios";
 import React from "react";
-import  cookies  from "react-cookies";
+import cookies from "react-cookies";
+import { useUser } from "../Context/UserContext";
 
 function AddPostForm ( props ) {
+    const { user, clearUser } = useUser();
     const handleSubmit = async ( e ) => {
         e.preventDefault();
         if ( e.target.img.value === "" ) {
@@ -12,15 +14,15 @@ function AddPostForm ( props ) {
             'title': e.target.title.value,
             'content': e.target.content.value,
             'img': e.target.img.value,
-            'userID': cookies.load( 'user_id' ),
+            'userID': user.user_id,
         };
         await axios.post(
             `https://whiteboarding-zaid.herokuapp.com/post`,
             post, {
-                headers: {
-                    'Authorization': `bearer ${cookies.load('token')}`
-                }
+            headers: {
+                'Authorization': `bearer ${cookies.load( 'token' )}`
             }
+        }
         ).then( () => {
             props.getData();
         } );
@@ -47,12 +49,9 @@ function AddPostForm ( props ) {
                     </div>
                 </form>
                 <button className="signout" onClick={() => {
-                    cookies.remove('token');
-                    cookies.remove('user_id');
-                    cookies.remove('username');
-                    cookies.remove('role');
-                    window.location.href = '/'
-                }}>Sign out {cookies.load('username')}</button>
+                    clearUser();
+                    window.location.href = '/';
+                }}>Sign out {user.username}</button>
             </div>
         </>
     );
