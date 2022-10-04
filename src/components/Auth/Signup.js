@@ -1,8 +1,8 @@
-import { useUser } from "../Context/UserContext";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext";
 
 function Signup () {
-    const { handleSignUp } = useUser();
-
+    const { handleSignUp, setSignup } = useAuth();
     return (
         <div className="signup">
             <h1>Sign up</h1>
@@ -27,7 +27,7 @@ function Signup () {
                 <div className="form-control">
                     <label htmlFor="role">Role</label>
                     <select name="role">
-                        <option value="user" selected>USER</option>
+                        <option value="user" defaultValue='user'>USER</option>
                         <option value="admin">ADMIN</option>
                     </select>
                 </div>
@@ -35,7 +35,7 @@ function Signup () {
                     <input type="submit" />
                 </div>
             </form>
-            <p>Already have an account? <a href="/signin">Sign in now</a></p>
+            <p>Already have an account? <Link to ="/" onClick={() => {setSignup(false)}}>Sign in now</Link></p>
         </div>
     );
 }

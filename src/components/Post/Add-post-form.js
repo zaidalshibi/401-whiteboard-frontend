@@ -1,37 +1,15 @@
-import axios from "axios";
 import React from "react";
-import cookies from "react-cookies";
-import { useUser } from "../Context/UserContext";
+import { useAuth } from "../../Context/AuthContext";
+import { useUserData } from "../../Context/UserDataContext";
 
-function AddPostForm ( props ) {
-    const { user, clearUser } = useUser();
-    const handleSubmit = async ( e ) => {
-        e.preventDefault();
-        if ( e.target.img.value === "" ) {
-            e.target.img.value = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/800px-Unofficial_JavaScript_logo_2.svg.png";
-        }
-        const post = {
-            'title': e.target.title.value,
-            'content': e.target.content.value,
-            'img': e.target.img.value,
-            'userID': user.user_id,
-        };
-        await axios.post(
-            `https://whiteboarding-zaid.herokuapp.com/post`,
-            post, {
-            headers: {
-                'Authorization': `bearer ${cookies.load( 'token' )}`
-            }
-        }
-        ).then( () => {
-            props.getData();
-        } );
-    };
+function AddPostForm () {
+    const { user, clearUser, setIsAuth } = useAuth();
+    const { addPost } = useUserData();
     return (
         <>
             <div className="add-post-form">
                 <h2>Add Post</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={( e ) => addPost( e )}>
                     <div className="form-control">
                         <label>Title</label>
                         <input type="text" placeholder="Add Title" name="title" />
@@ -50,7 +28,7 @@ function AddPostForm ( props ) {
                 </form>
                 <button className="signout" onClick={() => {
                     clearUser();
-                    window.location.href = '/';
+                    setIsAuth( false );
                 }}>Sign out {user.username}</button>
             </div>
         </>

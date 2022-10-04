@@ -1,15 +1,21 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import base64 from "base-64";
 import cookies from "react-cookies";
 
-const UserContext = createContext();
-export const useUser = () => useContext( UserContext );
-const UserContextProvider = ( props ) => {
+
+const AuthContext = createContext();
+export const useAuth = () => useContext( AuthContext );
+
+
+const AuthContextProvider = ( props ) => {
+    const [ isAuth , setIsAuth ] = useState( false );
+    const [ signup , setSignup ] = useState( false );
     let user = {
         username: cookies.load( "username" ),
         user_id: cookies.load( "user_id" ),
-        role: cookies.load( "role" )
+        role: cookies.load( "role" ),
+        token: cookies.load( "token" ),
     };
 
     const clearUser = () => {
@@ -17,6 +23,7 @@ const UserContextProvider = ( props ) => {
         cookies.remove( "token" );
         cookies.remove( "user_id" );
         cookies.remove( "role" );
+        setIsAuth( false );
     };
     const handleSignIn = async ( e ) => {
         e.preventDefault();
@@ -26,7 +33,7 @@ const UserContextProvider = ( props ) => {
         };
         const encoded = base64.encode( `${userInput.username}:${userInput.password}` );
         await axios.post(
-            `https://whiteboarding-zaid.herokuapp.com/signin`,
+            `${process.env.REACT_APP_SERVER_URL}/signin`,
             {},
             {
                 headers: {
@@ -35,11 +42,12 @@ const UserContextProvider = ( props ) => {
             }
         ).then( ( res ) => {
             if ( res.status === 200 ) {
+                setIsAuth( false );
                 cookies.save( 'token', res.data.token );
                 cookies.save( 'username', res.data.user.username );
                 cookies.save( 'user_id', res.data.user.id );
                 cookies.save( 'role', res.data.user.role );
-                window.location.href = "/posts";
+                setIsAuth( true );
             }
         } ).catch( ( err ) => {
             alert( 'Invalid Login' );
@@ -60,7 +68,7 @@ const UserContextProvider = ( props ) => {
                 'role': e.target.role.value
             };
             await axios.post(
-                `https://whiteboarding-zaid.herokuapp.com/signup`,
+                `${process.env.REACT_APP_SERVER_URL}/signup`,
                 userObject
             ).then( ( res ) => {
                 if ( res.status === 200 ) {
@@ -68,19 +76,27 @@ const UserContextProvider = ( props ) => {
                     cookies.save( 'username', res.data.user.username );
                     cookies.save( 'user_id', res.data.user.id );
                     cookies.save( 'role', res.data.user.role );
-                    window.location.href = "/posts";
+                    setIsAuth( true );
                 }
             } ).catch( ( err ) => {
                 alert( 'Username or email already exists' );
             } );
         };
     };
-    const value = { user, handleSignIn, handleSignUp, clearUser };
+
+    const checkSignIn = () => {
+        if ( cookies.load( 'token' ) ) {
+            setIsAuth( true );
+        } else {
+            setIsAuth( false );
+        }
+    };
+    const value = { user, handleSignIn, handleSignUp, clearUser, isAuth, setIsAuth, signup, setSignup, checkSignIn };
     return (
-        <UserContext.Provider value={value}>
+        <AuthContext.Provider value={value}>
             {props.children}
-        </UserContext.Provider>
+        </AuthContext.Provider>
     );
 };
 
-export default UserContextProvider;
+export default AuthContextProvider;
