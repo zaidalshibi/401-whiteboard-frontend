@@ -27,7 +27,7 @@ function Post ( props ) {
     const handleDelete = async ( id ) => {
         let confirm = prompt( "Please type DELETE" );
         if ( confirm === "DELETE" ) {
-            await axios.delete( `https://whiteboarding-zaid.herokuapp.com/post/${id}`, {
+            await axios.delete( `https://whiteboarding-zaid.herokuapp.com/post/${id}/${user.user_id}`, {
                 headers: {
                     'Authorization': `Bearer ${cookies.load( 'token' )}`
                 }
@@ -42,9 +42,10 @@ function Post ( props ) {
         let content = e.target.content.value;
         let obj = {
             title,
-            content
+            content,
         };
-        await axios.put( `https://whiteboarding-zaid.herokuapp.com/post/${id}`, obj, {
+        console.log(user.user_id)
+        await axios.put( `https://whiteboarding-zaid.herokuapp.com/post/${id}/${user.user_id}`, obj, {
             headers: {
                 'Authorization': `Bearer ${cookies.load( 'token' )}`
             }
@@ -67,8 +68,7 @@ function Post ( props ) {
                             <h3> post by {post.user.username}</h3>
                             <p className="card-text">{post.content}</p>
                         </div>
-                        {console.log( user )}
-                        {( user.role === 'admin' || user.user_id == post.user.id ) ?
+                        {( user.role === 'admin' || parseInt(user.user_id) === post.user.id ) ?
                             <div>
                                 <button onClick={() => {
                                     handleDelete( post.id );
