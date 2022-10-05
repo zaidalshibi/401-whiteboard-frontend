@@ -9,13 +9,14 @@ export const useAuth = () => useContext( AuthContext );
 
 
 const AuthContextProvider = ( props ) => {
-    const [ isAuth , setIsAuth ] = useState( false );
-    const [ signup , setSignup ] = useState( false );
+    const [ isAuth, setIsAuth ] = useState( false );
+    const [ signup, setSignup ] = useState( false );
     let user = {
         username: cookies.load( "username" ),
         user_id: cookies.load( "user_id" ),
         role: cookies.load( "role" ),
         token: cookies.load( "token" ),
+        capabilities: cookies.load( "capabilities" ),
     };
 
     const clearUser = () => {
@@ -23,8 +24,10 @@ const AuthContextProvider = ( props ) => {
         cookies.remove( "token" );
         cookies.remove( "user_id" );
         cookies.remove( "role" );
+        cookies.remove( "capabilities" );
         setIsAuth( false );
     };
+
     const handleSignIn = async ( e ) => {
         e.preventDefault();
         const userInput = {
@@ -47,6 +50,7 @@ const AuthContextProvider = ( props ) => {
                 cookies.save( 'username', res.data.user.username );
                 cookies.save( 'user_id', res.data.user.id );
                 cookies.save( 'role', res.data.user.role );
+                cookies.save( 'capabilities', res.data.user.capabilities );
                 setIsAuth( true );
             }
         } ).catch( ( err ) => {
@@ -76,6 +80,7 @@ const AuthContextProvider = ( props ) => {
                     cookies.save( 'username', res.data.user.username );
                     cookies.save( 'user_id', res.data.user.id );
                     cookies.save( 'role', res.data.user.role );
+                    cookies.save( 'capabilities', res.data.user.capabilities );
                     setIsAuth( true );
                 }
             } ).catch( ( err ) => {
@@ -91,7 +96,15 @@ const AuthContextProvider = ( props ) => {
             setIsAuth( false );
         }
     };
-    const value = { user, handleSignIn, handleSignUp, clearUser, isAuth, setIsAuth, signup, setSignup, checkSignIn };
+
+    const canDo = ( role, postId ) => {
+        if ( user.capabilities.includes( role ) || parseInt( user.user_id ) === postId ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    const value = { user, handleSignIn, handleSignUp, clearUser, isAuth, setIsAuth, signup, setSignup, checkSignIn, canDo };
     return (
         <AuthContext.Provider value={value}>
             {props.children}
