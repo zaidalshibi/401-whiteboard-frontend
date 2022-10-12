@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 
 function Signup () {
-    const { handleSignUp, setSignup } = useAuth();
+    const { handleSignUp } = useAuth();
     return (
         <div className="signup">
             <h1>Sign up</h1>
             <h2>Please sign in or sign up to see the posts</h2>
-            <form onSubmit={( e ) => handleSignUp( e )}>
+            <form
+                onSubmit={( e ) => handleSignUp( e )}
+            >
                 <div className="form-control">
                     <label htmlFor="username">Username</label>
                     <input type="text" name="username" id="username" />
@@ -35,7 +37,7 @@ function Signup () {
                     <input type="submit" />
                 </div>
             </form>
-            <p>Already have an account? <Link to ="/" onClick={() => {setSignup(false)}}>Sign in now</Link></p>
+            <p>Already have an account? <Link to="/" >Sign in now</Link></p>
         </div>
     );
 }

@@ -4,13 +4,15 @@ import { useUserData } from "../../Context/UserDataContext";
 
 
 function AddCommentForm ( props ) {
-    const { user, clearUser, setIsAuth } = useAuth();
+    const { handleSignOut } = useAuth();
     const { addComment } = useUserData();
     return (
         <>
             <div className="add-comment-form">
                 <h2>Add Comment</h2>
-                <form onSubmit={(e, postId) => addComment(e, props.postId)}>
+                <form
+                    onSubmit={( e ) => addComment( e, props.postId )}
+                >
                     <div className="form-control">
                         <textarea placeholder="Add Comment content" name="content"></textarea>
                     </div>
@@ -18,10 +20,12 @@ function AddCommentForm ( props ) {
                         <input type="submit" />
                     </div>
                 </form>
-                <button className="signout" onClick={() => {
-                            clearUser();
-                            setIsAuth( false );
-                        }}>Sign out {user.username}</button>
+                <button
+                    className="signout"
+                    onClick={() => { handleSignOut(); }}
+                >
+                    Sign out {JSON.parse( localStorage.getItem( 'username' ) )}
+                </button>
             </div>
         </>
     );

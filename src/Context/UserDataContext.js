@@ -1,32 +1,23 @@
 import { createContext, useContext, useState } from "react";
-import axios from "axios";
 import React from 'react';
-import cookies from 'react-cookies';
-import { useAuth } from "./AuthContext";
+import { addCommentAction, addPostAction, deletePostAction, editPostAction, getData, showEdit } from "../actions/userActions";
+import { useReducer } from "react";
+import { UserReducer } from "../reducers/userReducer";
+import { authData } from "../config/initials";
 
 
 const UserDataContext = createContext();
 export const useUserData = () => useContext( UserDataContext );
 
 const UserDataContextProvider = ( props ) => {
-    const [ post, setPost ] = useState( [] );
+    const [ postObj, dispatch ] = useReducer( UserReducer, { posts: authData.posts, edit: authData.edit } );
     const [ edit, setEdit ] = useState( false );
-    const { user } = useAuth();
 
 
-    const fetchData = async () => {
-        await axios.get( `${process.env.REACT_APP_SERVER_URL}/post`, {
-            headers: {
-                Authorization: `Bearer ${cookies.load( 'token' )}`
-            }
-        } )
-            .then( ( res ) => {
-                setPost( res.data );
-            } ).catch( ( err ) => {
-                console.log( err );
-            } );
+    const fetchData = () => {
+        getData( dispatch );
     };
-    
+
     const addPost = async ( e ) => {
         e.preventDefault();
         if ( e.target.img.value === "" ) {
@@ -36,21 +27,19 @@ const UserDataContextProvider = ( props ) => {
             'title': e.target.title.value,
             'content': e.target.content.value,
             'img': e.target.img.value,
-            'userID': user.user_id,
+            'userID': localStorage.getItem( 'user_id' ),
         };
-        await axios.post(
-            `${process.env.REACT_APP_SERVER_URL}/post`,
-            post, {
-            headers: {
-                'Authorization': `bearer ${cookies.load( 'token' )}`
-            }
-        }
-        ).then( () => {
-            console.log( 'post added' );
-        } );
+        addPostAction( dispatch, post );
+        e.target.title.value = "";
+        e.target.content.value = "";
+        e.target.img.value = "";
     };
 
-    const editPost = async ( e, id ) => {
+    const showEditForm = ( ) => {
+        showEdit( dispatch );
+    };
+
+    const editPost =  ( e, id ) => {
         e.preventDefault();
         let title = e.target.title.value;
         let content = e.target.content.value;
@@ -58,42 +47,29 @@ const UserDataContextProvider = ( props ) => {
             title,
             content,
         };
-        await axios.put( `${process.env.REACT_APP_SERVER_URL}/post/${id}/${user.user_id}`, obj, {
-            headers: {
-                'Authorization': `Bearer ${cookies.load( 'token' )}`
-            }
-        } );
-        setEdit( false );
+        editPostAction( dispatch, { id, post: obj } );
         fetchData();
     };
 
-    const deletePost = async ( id ) => {
+    const deletePost =  ( id ) => {
         let confirm = prompt( "Please type DELETE" );
         if ( confirm === "DELETE" ) {
-            await axios.delete( `${process.env.REACT_APP_SERVER_URL}/post/${id}/${user.user_id}`, {
-                headers: {
-                    'Authorization': `Bearer ${cookies.load( 'token' )}`
-                }
-            } );
+            deletePostAction( dispatch, id );
             fetchData();
         } else deletePost();
     };
 
-    const addComment = async ( e, postId ) => {
+    const addComment =  ( e, postId ) => {
         e.preventDefault();
         const comment = {
             'content': e.target.content.value,
         };
-        await axios.post(
-            `${process.env.REACT_APP_SERVER_URL}/comment/${postId}/${user.user_id}`,
-            comment
-        ).then( () => {
-            console.log( 'comment added' );
-        } );
+        addCommentAction( dispatch, { postId, comment } )
+        e.target.content.value = "";
     };
 
     return (
-        <UserDataContext.Provider value={{fetchData, deletePost, editPost, post, edit, setEdit, addPost, addComment}}>
+        <UserDataContext.Provider value={{ fetchData, deletePost, editPost, postObj, edit, setEdit, addPost, addComment, showEditForm }}>
             {props.children}
         </UserDataContext.Provider>
     );
