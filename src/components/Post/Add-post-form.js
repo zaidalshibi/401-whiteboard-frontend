@@ -2,14 +2,17 @@ import React from "react";
 import { useAuth } from "../../Context/AuthContext";
 import { useUserData } from "../../Context/UserDataContext";
 
-function AddPostForm () {
-    const { user, clearUser, setIsAuth } = useAuth();
+
+export default function AddPostForm () {
+    const { handleSignOut } = useAuth();
     const { addPost } = useUserData();
     return (
         <>
             <div className="add-post-form">
                 <h2>Add Post</h2>
-                <form onSubmit={( e ) => addPost( e )}>
+                <form
+                    onSubmit={( e ) => { addPost( e ); }}
+                >
                     <div className="form-control">
                         <label>Title</label>
                         <input type="text" placeholder="Add Title" name="title" />
@@ -26,13 +29,13 @@ function AddPostForm () {
                         <input type="submit" />
                     </div>
                 </form>
-                <button className="signout" onClick={() => {
-                    clearUser();
-                    setIsAuth( false );
-                }}>Sign out {user.username}</button>
+                <button
+                    className="signout"
+                    onClick={() => { handleSignOut(); }}
+                >
+                    Sign out {JSON.parse( localStorage.getItem( 'username' ) )}
+                </button>
             </div>
         </>
     );
 }
-
-export default AddPostForm;

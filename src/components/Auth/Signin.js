@@ -1,11 +1,8 @@
-// import axios from "axios";
-// import base64 from "base-64";
-// import  cookies  from "react-cookies";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 
 function Signin () {
-    const { handleSignIn, setSignup } = useAuth();
+    const { handleSignIn } = useAuth();
 
     return (
         <div className="signin">
@@ -24,7 +21,7 @@ function Signin () {
                     <input type="submit" />
                 </div>
             </form>
-            <p>Don't have an account? <Link to='/' onClick={() => {setSignup(true)}}>Sign up now</Link></p>
+            <p>Don't have an account? <Link to='/signup'>Sign up now</Link></p>
         </div>
     );
 }

@@ -10,30 +10,28 @@ import EditPostForm from "./editPostForm";
 
 function Post () {
     const { canDo } = useAuth();
-    const { fetchData, deletePost, post, setEdit, edit } = useUserData();
+    const { fetchData, deletePost, postObj, showEditForm } = useUserData();
 
-
-
-    useEffect( () => {
+    useEffect( () => {  
         fetchData();
-    }, [] );
+    }, [postObj.reRender, postObj.edit] );
     return (
         <>
-            {post ? post.map( ( post, idx ) => {
+            {postObj.posts ? postObj.posts.map( ( post, idx ) => {
                 return (
                     <div className="post-class" style={{ justifyContent: 'center', margin: '1rem' }} key={idx}>
                         <div>
                             <img src={post.img} alt={post.title} style={{ width: "15rem" }} />
                             <div className="card-body">
                                 <h1 className="card-title">{post.title}</h1>
-                                <h3> post by {post.user.username}</h3>
                                 <p className="card-text">{post.content}</p>
+                                <h3> post by {post.user.username}</h3>
                             </div>
                         </div>
                         <div>
                             {canDo( 'update', post.user.id ) === true ?
                                 <button onClick={() => {
-                                    setEdit( true );
+                                    showEditForm()
                                 }}>Edit post</button>
                                 : null}
                             {canDo( 'delete', post.user.id ) === true ?
@@ -41,16 +39,8 @@ function Post () {
                                     deletePost( post.id );
                                 }}>delete post</button>
                                 : null}
-                            {edit &&
+                            {postObj.showEdit &&
                                 <EditPostForm id={post.id} />
-                                // <form onSubmit={( e ) => editPost( e, post.id )}>
-                                //     <h3>edit post</h3>
-                                //     <label htmlFor="title">New Title</label>
-                                //     <input type="text" name="title" id="title" />
-                                //     <label htmlFor="content">New Content</label>
-                                //     <input type="text" name="content" id="content" />
-                                //     <input type="submit" value="submit" />
-                                // </form>
                             }
                         </div>
                         <div>
