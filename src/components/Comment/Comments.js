@@ -1,14 +1,20 @@
+import { Heading, useColorMode, VStack } from "@chakra-ui/react";
 import React from "react";
 
 function Comments ( props ) {
-    return ( 
+    const { colorMode } = useColorMode();
+    return (
         <>
-            <div className="card" style={{ justifyContent: 'center', margin: '1rem' }} key={props.idx}>
-                <div className="card-body">
-                    <h3 className="card-title">comment by : {props.comment.user.username}</h3>
-                    <p className="card-text">{props.comment.content}</p>
-                </div>
-            </div>
+            <VStack
+                w="60vw"
+                p={4}
+                rounded="md"
+                shadow="md"
+                bg={colorMode === "light" ? "purple.200" : "purple.800"}
+                key={props.idx}
+            >
+                <Heading as='h3' size='lg'>{props.comment.user.username}: {props.comment.content}</Heading>
+            </VStack>
         </>
     );
 }

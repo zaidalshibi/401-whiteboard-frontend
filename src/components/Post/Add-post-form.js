@@ -1,3 +1,4 @@
+import { Button, FormControl, FormLabel, Heading, Input, useColorMode, VStack } from "@chakra-ui/react";
 import React from "react";
 import { useAuth } from "../../Context/AuthContext";
 import { useUserData } from "../../Context/UserDataContext";
@@ -6,36 +7,61 @@ import { useUserData } from "../../Context/UserDataContext";
 export default function AddPostForm () {
     const { handleSignOut } = useAuth();
     const { addPost } = useUserData();
+    const { colorMode } = useColorMode();
     return (
         <>
-            <div className="add-post-form">
-                <h2>Add Post</h2>
+            <VStack
+                bg={colorMode === "light" ? "purple.200" : "purple.800"}
+                w="100vw"
+                p={4}
+                rounded="md"
+                shadow="md"
+            >
+                <Heading as='h1' size='2xl'>Add Post</Heading>
                 <form
                     onSubmit={( e ) => { addPost( e ); }}
                 >
-                    <div className="form-control">
-                        <label>Title</label>
-                        <input type="text" placeholder="Add Title" name="title" />
-                    </div>
-                    <div className="form-control">
-                        <label>Content</label>
-                        <textarea placeholder="Add Post content" name="content"></textarea>
-                    </div>
-                    <div className="form-control">
-                        <label>Add Image</label>
-                        <input type='text' placeholder="Add Image address" name="img"></input>
-                    </div>
-                    <div className="form-control">
-                        <input type="submit" />
-                    </div>
+                    <FormControl>
+                        <FormLabel htmlFor="title">Title</FormLabel>
+                        <Input
+                            type='text'
+                            placeholder='Title'
+                            id='title'
+                        />
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel htmlFor="content">Content</FormLabel>
+                        <Input
+                            type='text'
+                            placeholder='Content'
+                            id='content'
+                        />
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel htmlFor="author">Add Image Address</FormLabel>
+                        <Input
+                            type='text'
+                            placeholder='Image Address'
+                            id='img'
+                        />
+                    </FormControl>
+                    <FormControl>
+                        <Input
+                            type='submit'
+                            value='Add Post'
+                            bg={colorMode === "light" ? "gray.800" : "gray.200"}
+                            color={colorMode === "light" ? "gray.200" : "gray.800"}
+                            _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.300" }}
+                            mt={4}
+                        />
+                    </FormControl>
                 </form>
-                <button
-                    className="signout"
+                <Button
                     onClick={() => { handleSignOut(); }}
                 >
                     Sign out {JSON.parse( localStorage.getItem( 'username' ) )}
-                </button>
-            </div>
+                </Button>
+            </VStack>
         </>
     );
 }

@@ -1,3 +1,4 @@
+import { Button, FormControl, Heading, HStack, Input, useColorMode, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { useAuth } from "../../Context/AuthContext";
 import { useUserData } from "../../Context/UserDataContext";
@@ -6,27 +7,50 @@ import { useUserData } from "../../Context/UserDataContext";
 function AddCommentForm ( props ) {
     const { handleSignOut } = useAuth();
     const { addComment } = useUserData();
+    const { colorMode } = useColorMode();
     return (
         <>
-            <div className="add-comment-form">
-                <h2>Add Comment</h2>
+            <VStack
+                w="80vw"
+                pt={10}
+                pb={10}
+                rounded="md"
+                shadow="md"
+                bg={colorMode === "light" ? "purple.200" : "purple.800"}
+            >
+                <Heading as='h2' size='xl'>Add Comment</Heading>
                 <form
                     onSubmit={( e ) => addComment( e, props.postId )}
                 >
-                    <div className="form-control">
-                        <textarea placeholder="Add Comment content" name="content"></textarea>
-                    </div>
-                    <div className="form-control">
-                        <input type="submit" />
-                    </div>
+                    <HStack
+                        w="100%"
+                        justifyContent="space-between"
+                    >
+                        <FormControl>
+                            <Input
+                                type='text'
+                                placeholder='Comment here'
+                                id='content'
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <Input
+                                type='submit'
+                                value='Add Comment'
+                                bg='gray.800'
+                                color='gray.200'
+                                _hover={{ bg: 'gray.700' }}
+                                mt={4}
+                            />
+                        </FormControl>
+                    </HStack>
                 </form>
-                <button
-                    className="signout"
+                <Button
                     onClick={() => { handleSignOut(); }}
                 >
-                    Sign out {JSON.parse( localStorage.getItem( 'username' ) )}
-                </button>
-            </div>
+                    Sign Out {JSON.parse( localStorage.getItem( 'username' ) )}
+                </Button>
+            </VStack>
         </>
     );
 }

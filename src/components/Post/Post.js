@@ -5,48 +5,76 @@ import { useAuth } from "../../Context/AuthContext";
 import { useUserData } from "../../Context/UserDataContext";
 import Comments from "../Comment/Comments";
 import EditPostForm from "./editPostForm";
+import { Button, Heading, HStack, Image, useColorMode, VStack } from '@chakra-ui/react';
 
 
 
 function Post () {
     const { canDo } = useAuth();
     const { fetchData, deletePost, postObj, showEditForm } = useUserData();
+    const { colorMode } = useColorMode();
 
-    useEffect( () => {  
+    useEffect( () => {
         fetchData();
-    }, [postObj.reRender, postObj.edit] );
+    }, [ postObj.reRender, postObj.edit ] );
     return (
         <>
             {postObj.posts ? postObj.posts.map( ( post, idx ) => {
                 return (
-                    <div className="post-class" style={{ justifyContent: 'center', margin: '1rem' }} key={idx}>
-                        <div>
-                            <img src={post.img} alt={post.title} style={{ width: "15rem" }} />
-                            <div className="card-body">
-                                <h1 className="card-title">{post.title}</h1>
-                                <p className="card-text">{post.content}</p>
-                                <h3> post by {post.user.username}</h3>
-                            </div>
-                        </div>
-                        <div>
+                    <VStack
+                        key={idx}
+                        bg={colorMode === "light" ? "gray.200" : "gray.800"}
+                        w="100vw"
+                        p={4}
+                        pt={2}
+                        rounded="md"
+                        shadow="md"
+                    >
+                        <VStack>
+                            <Image
+                                src={post.img}
+                                alt={post.title}
+                                borderRadius="full"
+                                boxSize="150px"
+                            />
+                            <VStack>
+                            <Heading as='h2' size="lg">Title: {post.title}</Heading>
+                            <Heading as='p' size='md'>Content: {post.content}</Heading>
+                            <Heading as='h3' size='md' m={4}>Author: {post.user.username}</Heading>
+                            </VStack>
+                        </VStack>
+                        <HStack>
                             {canDo( 'update', post.user.id ) === true ?
-                                <button onClick={() => {
-                                    showEditForm()
-                                }}>Edit post</button>
+                                <Button
+                                    onClick={() => { showEditForm(); }}
+                                    bg={colorMode === "light" ? "gray.800" : "gray.200"}
+                                    color={colorMode === "light" ? "gray.200" : "gray.800"}
+                                    _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.300" }}
+                                >
+                                    Edit Post
+                                </Button>
                                 : null}
                             {canDo( 'delete', post.user.id ) === true ?
-                                <button onClick={() => {
-                                    deletePost( post.id );
-                                }}>delete post</button>
+                                <Button
+                                    onClick={() => { deletePost( post.id ); }}
+                                    bg={colorMode === "light" ? "gray.800" : "gray.200"}
+                                    color={colorMode === "light" ? "gray.200" : "gray.800"}
+                                    _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.300" }}
+                                    ml="1rem"
+                                >
+                                    Delete Post
+                                </Button>
                                 : null}
-                            {postObj.showEdit &&
-                                <EditPostForm id={post.id} />
-                            }
-                        </div>
-                        <div>
-                            {!post.comments && <h1>No comments right now</h1>}
+                        </HStack>
+                        {postObj.showEdit &&
+                            <EditPostForm id={post.id} />
+                        }
+                        <VStack
+                            p={10}
+                        >
+                            {!post.comments && <Heading as='h1' size='4xl' noOfLines={1}>No comments right now</Heading>}
                             {post.comments &&
-                                <h2>Comments</h2>
+                                <Heading as="h3" size='xl' noOfLines={1}>Comments</Heading>
                             }
                             {post.comments && post.comments.map( ( comment, idx ) => {
                                 return (
@@ -54,10 +82,12 @@ function Post () {
                                 );
                             } )}
                             <AddCommentForm postId={post.id} />
-                        </div>
-                    </div>
+                        </VStack>
+                    </VStack>
                 );
-            } ) : <h1>No posts right now</h1>}
+            } ) : <Heading as='h1' size='4xl' noOfLines={1}>
+                No posts right now
+            </Heading>}
         </>
     );
 }
