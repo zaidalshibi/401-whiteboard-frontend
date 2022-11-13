@@ -1,4 +1,4 @@
-.add-post-form{
+/* .add-post-form{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,4 +46,8 @@ div label, input{
     align-items: center;
     color: red;
     background-color: black;
+} */
+
+#root {
+    background-color: #E2E8F0;
 }
