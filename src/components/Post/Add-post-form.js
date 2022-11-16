@@ -11,7 +11,7 @@ export default function AddPostForm () {
     return (
         <>
             <VStack
-                bg={colorMode === "light" ? "purple.200" : "purple.800"}
+                bg={colorMode === "light" ? "authBackground.100" : "authBackground.900"}
                 w="100vw"
                 p={4}
                 rounded="md"

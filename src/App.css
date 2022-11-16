@@ -50,4 +50,5 @@ div label, input{
 
 #root {
     background-color: #E2E8F0;
+    overflow: hidden;
 }

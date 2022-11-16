@@ -1,11 +1,21 @@
 import { Button, FormControl, FormLabel, Heading, Input, useColorMode, VStack } from "@chakra-ui/react";
+import { useState } from "react";
 import { useUserData } from "../../Context/UserDataContext";
 
 function EditPostForm ( props ) {
     const { editPost } = useUserData();
     const { colorMode } = useColorMode();
+    const [ isLoading, setIsLoading ] = useState( false );
+    const editPostAction = ( e, id ) => {
+        e.preventDefault();
+        setIsLoading( true );
+        editPost( e, id );
+        setTimeout( () => {
+            setIsLoading( false );
+        }, 5000 );
+    };
     return (
-        <form onSubmit={( e ) => editPost( e, props.id )}>
+        <form onSubmit={( e ) => editPostAction( e, props.id )}>
             <VStack>
                 <Heading as='h3' size='lg'>edit post</Heading>
                 <FormControl>
@@ -29,7 +39,7 @@ function EditPostForm ( props ) {
                     bg={colorMode === "light" ? "gray.800" : "gray.200"}
                     color={colorMode === "light" ? "gray.200" : "gray.800"}
                     _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.300" }}
-                    isLoading={props.isSubmitting}
+                    isLoading={isLoading}
                     type='submit'
                 >
                     Submit

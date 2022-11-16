@@ -18,9 +18,9 @@ function App () {
         top='0'
         right='0'
         m={4}
-        bg={colorMode === "light" ? "gray.800" : "gray.300"}
-        color={colorMode === "light" ? "gray.300" : "gray.800"}
-        _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.400" }}
+        bg={colorMode === "light" ? "modeButton.900" : "modeButton.100"}
+        color={colorMode === "light" ? "modeButton.100" : "modeButton.900"}
+        _hover={{ bg: colorMode === "light" ? "modeButtonHover.900" : "modeButtonHover.100" }}
       >
         Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
       </Button>
