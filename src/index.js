@@ -7,10 +7,11 @@ import UserDataContextProvider from './Context/UserDataContext';
 import Signup from './components/Auth/Signup';
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import theme from './theme';
+import  myTheme  from './theme/index';
 
 const root = ReactDOM.createRoot( document.getElementById( 'root' ) );
 root.render(
-  <ChakraProvider>
+  <ChakraProvider theme={myTheme}>
     <AuthContextProvider>
       <UserDataContextProvider>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />

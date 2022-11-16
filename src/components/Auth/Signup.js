@@ -4,7 +4,7 @@ import { useAuth } from "../../Context/AuthContext";
 
 function Signup () {
     const { handleSignUp } = useAuth();
-    const { colorMode } = useColorMode();
+    const { colorMode, toggleColorMode } = useColorMode();
     return (
         <VStack
             w="100vw"
@@ -15,9 +15,20 @@ function Signup () {
             shadow="md"
             p="20px"
             rounded="md"
-            bg={colorMode === "light" ? "purple.200" : "purple.800"}
-
+            bg={colorMode === "light" ? "authBackground.100" : "authBackground.900"}
         >
+            <Button
+                onClick={toggleColorMode}
+                position='fixed'
+                top='0'
+                right='0'
+                m={4}
+                bg={colorMode === "light" ? "modeButton.900" : "modeButton.100"}
+                color={colorMode === "light" ? "modeButton.100" : "modeButton.900"}
+                _hover={{ bg: colorMode === "light" ? "modeButtonHover.900" : "modeButtonHover.100" }}
+            >
+                Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
+            </Button>
             <Heading as='h1' size='2xl'>Sign up</Heading>
             <Heading as='h2' size='md'>Please sign in or sign up to see the posts</Heading>
             <form
@@ -29,7 +40,7 @@ function Signup () {
                         type="text"
                         name="username"
                         id="username"
-                        bg={colorMode === "light" ? "gray.100" : "gray.700"}
+                        bg={colorMode === "light" ? "input.100" : "input.900"}
                         border="2px"
                         borderColor="gray.300"
                         rounded="md"
@@ -41,7 +52,7 @@ function Signup () {
                         type="password"
                         name="password"
                         id="password"
-                        bg={colorMode === "light" ? "gray.100" : "gray.700"}
+                        bg={colorMode === "light" ? "input.100" : "input.900"}
                         border="2px"
                         borderColor="gray.300"
                         rounded="md"
@@ -53,7 +64,7 @@ function Signup () {
                         type="password"
                         name="confirmPassword"
                         id="confirmPassword"
-                        bg={colorMode === "light" ? "gray.100" : "gray.700"}
+                        bg={colorMode === "light" ? "input.100" : "input.900"}
                         border="2px"
                         borderColor="gray.300"
                         rounded="md"
@@ -65,7 +76,7 @@ function Signup () {
                         type="email"
                         name="email"
                         id="email"
-                        bg={colorMode === "light" ? "gray.100" : "gray.700"}
+                        bg={colorMode === "light" ? "input.100" : "input.900"}
                         border="2px"
                         borderColor="gray.300"
                         rounded="md"
@@ -76,7 +87,7 @@ function Signup () {
                     <Select
                         name="role"
                         id="role"
-                        bg={colorMode === "light" ? "gray.100" : "gray.700"}
+                        bg={colorMode === "light" ? "input.100" : "input.900"}
                         border="2px"
                         borderColor="gray.300"
                         rounded="md"
@@ -89,7 +100,7 @@ function Signup () {
                     <Input
                         type="submit"
                         value="Sign up"
-                        bg={colorMode === "light" ? "blue.800" : "blue.300"}
+                        bg={colorMode === "light" ? "authButton.100" : "authButton.900"}
                         color="white"
                         _hover={{ bg: "black" }}
                         mt="20px"
@@ -99,7 +110,7 @@ function Signup () {
             <Heading as='p' size='sm'>Already have an account? <Button
                 as={Link}
                 to="/"
-                color={colorMode === "light" ? "blue.800" : "blue.200"}
+                color={colorMode === "light" ? "authButton.100" : "authButton.900"}
                 variant="link"
                 size="xl"
             >Sign in</Button></Heading>

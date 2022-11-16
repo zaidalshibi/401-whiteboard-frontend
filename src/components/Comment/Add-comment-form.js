@@ -16,7 +16,7 @@ function AddCommentForm ( props ) {
                 pb={10}
                 rounded="md"
                 shadow="md"
-                bg={colorMode === "light" ? "purple.200" : "purple.800"}
+                bg={colorMode === "light" ? "authBackground.100" : "authBackground.900"}
             >
                 <Heading as='h2' size='xl'>Add Comment</Heading>
                 <form

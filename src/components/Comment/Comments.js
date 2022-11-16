@@ -10,7 +10,7 @@ function Comments ( props ) {
                 p={4}
                 rounded="md"
                 shadow="md"
-                bg={colorMode === "light" ? "purple.200" : "purple.800"}
+                bg={colorMode === "light" ? "authBackground.100" : "authBackground.900"}
                 key={props.idx}
             >
                 <Heading as='h3' size='lg'>{props.comment.user.username}: {props.comment.content}</Heading>

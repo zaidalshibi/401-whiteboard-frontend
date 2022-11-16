@@ -16,7 +16,7 @@ function Signin () {
             shadow="md"
             p="20px"
             rounded="md"
-            bg={colorMode === "light" ? "purple.200" : "purple.800"}
+            bg={colorMode === "light" ? "authBackground.100" : "authBackground.900"}
         >
             <Heading as='h1' size='2xl'>Sign in</Heading>
             <Heading as='h2' size='md'>Please sign in or sign up to see the posts</Heading>
@@ -27,7 +27,7 @@ function Signin () {
                         type="text"
                         name="username"
                         id="username"
-                        bg={colorMode === "light" ? "gray.100" : "gray.700"}
+                        bg={colorMode === "light" ? "input.100" : "input.900"}
                         border="2px"
                         borderColor="gray.300"
                         rounded="md"
@@ -39,7 +39,7 @@ function Signin () {
                         type="password"
                         name="password"
                         id="password"
-                        bg={colorMode === "light" ? "gray.100" : "gray.700"}
+                        bg={colorMode === "light" ? "input.100" : "input.900"}
                         border="2px"
                         borderColor="gray.300"
                         rounded="md"
@@ -49,7 +49,7 @@ function Signin () {
                     <Input
                         type="submit"
                         value="Sign in"
-                        bg={colorMode === "light" ? "blue.800" : "blue.300"}
+                        bg={colorMode === "light" ? "authButton.100" : "authButton.900"}
                         mt="10px"
                         color="white"
                         _hover={{ bg: "black" }}
@@ -59,7 +59,7 @@ function Signin () {
             <Heading as='p' size='sm'>Don't have an account? <Button
                 as={Link}
                 to="/signup"
-                color={colorMode === "light" ? "blue.800" : "blue.200"}
+                color={colorMode === "light" ? "authButton.100" : "authButton.900"}
                 variant="link"
                 size="xl"
             >Sign up Now</Button></Heading>
