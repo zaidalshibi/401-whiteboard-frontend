@@ -1,25 +1,26 @@
 import { useEffect } from "react";
 import AddCommentForm from "../Comment/Add-comment-form";
 import React from 'react';
-import { useAuth } from "../../Context/AuthContext";
-import { useUserData } from "../../Context/UserDataContext";
 import Comments from "../Comment/Comments";
 import EditPostForm from "./editPostForm";
 import { Button, Heading, HStack, Image, useColorMode, VStack } from '@chakra-ui/react';
-
+import { canDo } from '../../actions/authActions';
+import { deletePostAction, getData, showEditAction } from "../../actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
 
 
 function Post () {
-    const { canDo } = useAuth();
-    const { fetchData, deletePost, postObj, showEditForm } = useUserData();
+    const dispatch = useDispatch();
+    const showEdit = useSelector( state => state.auth.edit );
+    const posts = useSelector( state => state.auth.posts );
     const { colorMode } = useColorMode();
 
     useEffect( () => {
-        fetchData();
-    }, [ postObj.reRender, postObj.edit ] );
+        getData(dispatch);
+    }, [ showEdit ] );
     return (
         <>
-            {postObj.posts ? postObj.posts.map( ( post, idx ) => {
+            {posts ? posts.map( ( post, idx ) => {
                 return (
                     <VStack
                         key={idx}
@@ -38,15 +39,15 @@ function Post () {
                                 boxSize="150px"
                             />
                             <VStack>
-                            <Heading as='h2' size="lg">Title: {post.title}</Heading>
-                            <Heading as='p' size='md'>Content: {post.content}</Heading>
-                            <Heading as='h3' size='md' m={4}>Author: {post.user.username}</Heading>
+                                <Heading as='h2' size="lg">Title: {post.title}</Heading>
+                                <Heading as='p' size='md'>Content: {post.content}</Heading>
+                                <Heading as='h3' size='md' m={4}>Author: {post.user.username}</Heading>
                             </VStack>
                         </VStack>
                         <HStack>
                             {canDo( 'update', post.user.id ) === true ?
                                 <Button
-                                    onClick={() => { showEditForm(); }}
+                                    onClick={() => { showEditAction(dispatch, true); }}
                                     bg={colorMode === "light" ? "gray.800" : "gray.200"}
                                     color={colorMode === "light" ? "gray.200" : "gray.800"}
                                     _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.300" }}
@@ -56,7 +57,7 @@ function Post () {
                                 : null}
                             {canDo( 'delete', post.user.id ) === true ?
                                 <Button
-                                    onClick={() => { deletePost( post.id ); }}
+                                    onClick={() => { deletePostAction( dispatch, post.id ); }}
                                     bg={colorMode === "light" ? "gray.800" : "gray.200"}
                                     color={colorMode === "light" ? "gray.200" : "gray.800"}
                                     _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.300" }}
@@ -66,7 +67,7 @@ function Post () {
                                 </Button>
                                 : null}
                         </HStack>
-                        {postObj.showEdit &&
+                        {showEdit &&
                             <EditPostForm id={post.id} />
                         }
                         <VStack

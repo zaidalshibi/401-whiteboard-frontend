@@ -1,12 +1,12 @@
 import { Button, FormControl, Heading, HStack, Input, useColorMode, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { useAuth } from "../../Context/AuthContext";
-import { useUserData } from "../../Context/UserDataContext";
+import { useDispatch } from 'react-redux';
+import { logoutAction } from '../../actions/authActions';
+import { addCommentAction } from '../../actions/userActions';
 
 
 function AddCommentForm ( props ) {
-    const { handleSignOut } = useAuth();
-    const { addComment } = useUserData();
+    const dispatch = useDispatch();
     const { colorMode } = useColorMode();
     return (
         <>
@@ -20,7 +20,7 @@ function AddCommentForm ( props ) {
             >
                 <Heading as='h2' size='xl'>Add Comment</Heading>
                 <form
-                    onSubmit={( e ) => addComment( e, props.postId )}
+                    onSubmit={( e ) => addCommentAction( e, props.postId, dispatch )}
                 >
                     <HStack
                         w="100%"
@@ -46,7 +46,7 @@ function AddCommentForm ( props ) {
                     </HStack>
                 </form>
                 <Button
-                    onClick={() => { handleSignOut(); }}
+                    onClick={() => { logoutAction( dispatch ); }}
                 >
                     Sign Out {JSON.parse( localStorage.getItem( 'username' ) )}
                 </Button>

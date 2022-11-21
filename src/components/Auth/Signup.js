@@ -1,9 +1,10 @@
 import { Button, FormControl, FormLabel, Heading, Input, Select, useColorMode, VStack } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../Context/AuthContext";
+import { signupAction } from "../../actions/authActions";
 
 function Signup () {
-    const { handleSignUp } = useAuth();
+    const dispatch = useDispatch();
     const { colorMode, toggleColorMode } = useColorMode();
     return (
         <VStack
@@ -32,7 +33,7 @@ function Signup () {
             <Heading as='h1' size='2xl'>Sign up</Heading>
             <Heading as='h2' size='md'>Please sign in or sign up to see the posts</Heading>
             <form
-                onSubmit={( e ) => handleSignUp( e )}
+                onSubmit={( e ) => signupAction( e, dispatch )}
             >
                 <FormControl>
                     <FormLabel htmlFor="username">Username</FormLabel>
