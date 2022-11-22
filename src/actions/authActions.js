@@ -1,7 +1,7 @@
 import base64 from "base-64";
 import axios from "axios";
 import cookies from "react-cookies";
-import { loginSuccess, loginFailure, logout, signupSuccess, signupFailure } from "../Redux/slicer";
+import { loginSuccess, loginFailure, logout, signupSuccess, signupFailure } from "../AuthRedux/slicer";
 
 export const loginAction = async ( payload, dispatch ) => {
     payload.preventDefault();

@@ -1,6 +1,6 @@
 import cookies from "react-cookies";
 import axios from "axios";
-import { addComment, addPost, deletePost, editPost, fetchPosts, fetchPostsFailure, showEdit } from "../Redux/slicer";
+import { addComment, addPost, deletePost, editPost, fetchPosts, fetchPostsFailure, showEdit } from "../UserRedux/slicer";
 
 
 export const getData = ( dispatch ) => {

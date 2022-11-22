@@ -1,49 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    isAuth: false,
-    user: {},
-    token: "",
-    error: "",
     showEdit: false,
     posts: [],
     loading: false,
+    error: "",
 };
 
 export const reduxApp = createSlice( {
     name: "redux",
     initialState,
     reducers: {
-        loginSuccess: ( state, action ) => {
-            state.isAuth = true;
-            state.user = action.payload.user;
-            state.token = action.payload.token;
-            state.error = "";
-        },
-        loginFailure: ( state, action ) => {
-            state.isAuth = false;
-            state.user = {};
-            state.token = "";
-            state.error = action.payload.message;
-        },
-        logout: ( state ) => {
-            state.isAuth = false;
-            state.user = {};
-            state.token = "";
-            state.error = "";
-        },
-        signupSuccess: ( state, action ) => {
-            state.isAuth = true;
-            state.user = action.payload.user;
-            state.token = action.payload.token;
-            state.error = "";
-        },
-        signupFailure: ( state, action ) => {
-            state.isAuth = false;
-            state.user = {};
-            state.token = "";
-            state.error = action.payload.message;
-        },
         showEdit: ( state, action ) => {
             state.showEdit = action.payload;
         },
@@ -81,15 +48,10 @@ export const reduxApp = createSlice( {
     }
 } );
 
-export const { 
-    loginSuccess, 
-    loginFailure, 
-    logout, 
-    signupSuccess, 
-    signupFailure, 
-    showEdit, 
-    editPost, 
-    addPost, 
+export const {
+    showEdit,
+    addPost,
+    editPost,
     deletePost,
     addComment,
     fetchPosts,

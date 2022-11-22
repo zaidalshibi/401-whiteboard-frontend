@@ -8,7 +8,7 @@ import { Button, useColorMode, VStack } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 function App () {
-  const isAuth = useSelector(state => state.auth.isAuth);
+  const isAuth = useSelector( state => state.auth.isAuth );
   const { colorMode, toggleColorMode } = useColorMode();
   return (
     <VStack>
