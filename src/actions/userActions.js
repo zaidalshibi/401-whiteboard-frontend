@@ -5,7 +5,8 @@ import { addComment, addPost, deletePost, editPost, fetchPosts, fetchPostsFailur
 
 export const getData = ( dispatch ) => {
     try {
-        const token = cookies.load( "token" );
+        let token = cookies.load( "token" );
+        if ( token !== undefined || token !== null || token !== "" ) {
         axios.get( `${process.env.REACT_APP_SERVER_URL}/post`, {}
             , {
                 Headers: {
@@ -18,11 +19,16 @@ export const getData = ( dispatch ) => {
                 console.log( err );
                 dispatch( fetchPostsFailure( err.message ) );
             } );
+        } else {
+            token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InphaWRhbHNoaWJpIiwiaWF0IjoxNjY5MTUxMjI3fQ.jyTxqcA4f7YRIDt4y9LpwITDo51xijC1KHB9KlLU7Vs';
+            getData( dispatch );
+        }
     }
     catch ( error ) {
         console.log( error );
         dispatch( fetchPostsFailure( error ) );
     }
+    
 };
 
 export const addPostAction = ( payload, dispatch ) => {

@@ -11,7 +11,6 @@ import { useUserDispatch, useUserSelector } from "../../index";
 
 function Post () {
     const userDispatch = useUserDispatch();
-    console.log( useUserSelector( state => state ) );
     const showEdit = useUserSelector( state => state.user.showEdit );
     const posts = useUserSelector( state => state.user.post );
     const { colorMode } = useColorMode();
