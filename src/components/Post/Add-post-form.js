@@ -1,12 +1,13 @@
 import { Button, FormControl, FormLabel, Heading, Input, useColorMode, VStack } from "@chakra-ui/react";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useAuthDispatch, useUserDispatch } from "../../index";
 import { logoutAction } from "../../actions/authActions";
 import { addPostAction } from "../../actions/userActions";
 
 
 export default function AddPostForm () {
-    const dispatch = useDispatch();
+    const authDispatch = useAuthDispatch();
+    const userDispatch = useUserDispatch();
     const { colorMode } = useColorMode();
     return (
         <>
@@ -19,7 +20,7 @@ export default function AddPostForm () {
             >
                 <Heading as='h1' size='2xl'>Add Post</Heading>
                 <form
-                    onSubmit={( e ) => { addPostAction( e , dispatch); }}
+                    onSubmit={( e ) => { addPostAction( e, userDispatch ); }}
                 >
                     <FormControl>
                         <FormLabel htmlFor="title">Title</FormLabel>
@@ -57,7 +58,7 @@ export default function AddPostForm () {
                     </FormControl>
                 </form>
                 <Button
-                    onClick={() => { logoutAction( dispatch ); }}
+                    onClick={() => { logoutAction( authDispatch ); }}
                 >
                     Sign out {JSON.parse( localStorage.getItem( 'username' ) )}
                 </Button>
