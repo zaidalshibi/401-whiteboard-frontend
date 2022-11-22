@@ -7,20 +7,19 @@ export const getData = ( dispatch ) => {
     try {
         let token = cookies.load( "token" );
         if ( token !== undefined || token !== null || token !== "" ) {
-        axios.get( `${process.env.REACT_APP_SERVER_URL}/post`, {}
-            , {
-                Headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            } )
-            .then( ( res ) => {
-                dispatch( fetchPosts( res.data ) );
-            } ).catch( ( err ) => {
-                console.log( err );
-                dispatch( fetchPostsFailure( err.message ) );
-            } );
+            axios.get( `${process.env.REACT_APP_SERVER_URL}/post`, {}
+                , {
+                    Headers: {
+                        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InphaWRhbHNoaWJpIiwiaWF0IjoxNjY5MDYxNTcyfQ.wIiAqU6raJ1mD3E9KxFua1366Ej9INvjKp35Jnwz0ok`
+                    }
+                } )
+                .then( ( res ) => {
+                    dispatch( fetchPosts( res.data ) );
+                } ).catch( ( err ) => {
+                    console.log( err );
+                    dispatch( fetchPostsFailure( err.message ) );
+                } );
         } else {
-            token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InphaWRhbHNoaWJpIiwiaWF0IjoxNjY5MTUxMjI3fQ.jyTxqcA4f7YRIDt4y9LpwITDo51xijC1KHB9KlLU7Vs';
             getData( dispatch );
         }
     }
@@ -28,7 +27,7 @@ export const getData = ( dispatch ) => {
         console.log( error );
         dispatch( fetchPostsFailure( error ) );
     }
-    
+
 };
 
 export const addPostAction = ( payload, dispatch ) => {
