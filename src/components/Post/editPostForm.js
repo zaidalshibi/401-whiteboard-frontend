@@ -1,15 +1,15 @@
 import { Button, FormControl, FormLabel, Heading, Input, useColorMode, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { useUserData } from "../../Context/UserDataContext";
+import { useDispatch } from "react-redux";
 
 function EditPostForm ( props ) {
-    const { editPost } = useUserData();
+    const dispatch = useDispatch();
     const { colorMode } = useColorMode();
     const [ isLoading, setIsLoading ] = useState( false );
     const editPostAction = ( e, id ) => {
         e.preventDefault();
         setIsLoading( true );
-        editPost( e, id );
+        editPostAction( e, id, dispatch );
         setTimeout( () => {
             setIsLoading( false );
         }, 5000 );
