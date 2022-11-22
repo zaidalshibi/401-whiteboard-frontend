@@ -5,10 +5,10 @@ import Post from "./components/Post/Post";
 import Signin from "./components/Auth/Signin";
 import './App.css';
 import { Button, useColorMode, VStack } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useAuthSelector } from './index';
 
 function App () {
-  const isAuth = useSelector( state => state.auth.isAuth );
+  const isAuth = useAuthSelector( state => state.auth.isAuth );
   const { colorMode, toggleColorMode } = useColorMode();
   return (
     <VStack>

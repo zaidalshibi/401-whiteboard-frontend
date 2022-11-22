@@ -1,10 +1,10 @@
 import { Button, FormControl, FormLabel, Heading, Input, Select, useColorMode, VStack } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useAuthDispatch } from '../../index';
 import { Link } from "react-router-dom";
 import { signupAction } from "../../actions/authActions";
 
 function Signup () {
-    const dispatch = useDispatch();
+    const dispatch = useAuthDispatch();
     const { colorMode, toggleColorMode } = useColorMode();
     return (
         <VStack

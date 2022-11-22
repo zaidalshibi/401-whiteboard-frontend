@@ -6,17 +6,18 @@ import EditPostForm from "./editPostForm";
 import { Button, Heading, HStack, Image, useColorMode, VStack } from '@chakra-ui/react';
 import { canDo } from '../../actions/authActions';
 import { deletePostAction, getData, showEditAction } from "../../actions/userActions";
-import { useDispatch, useSelector } from "react-redux";
+import { useUserDispatch, useUserSelector } from "../../index";
 
 
 function Post () {
-    const dispatch = useDispatch();
-    const showEdit = useSelector( state => state.auth.edit );
-    const posts = useSelector( state => state.auth.posts );
+    const userDispatch = useUserDispatch();
+    console.log( useUserSelector( state => state ) );
+    const showEdit = useUserSelector( state => state.user.showEdit );
+    const posts = useUserSelector( state => state.user.post );
     const { colorMode } = useColorMode();
 
     useEffect( () => {
-        getData(dispatch);
+        getData( userDispatch );
     }, [ showEdit ] );
     return (
         <>
@@ -47,7 +48,7 @@ function Post () {
                         <HStack>
                             {canDo( 'update', post.user.id ) === true ?
                                 <Button
-                                    onClick={() => { showEditAction(dispatch, true); }}
+                                    onClick={() => { showEditAction( userDispatch, true ); }}
                                     bg={colorMode === "light" ? "gray.800" : "gray.200"}
                                     color={colorMode === "light" ? "gray.200" : "gray.800"}
                                     _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.300" }}
@@ -57,7 +58,7 @@ function Post () {
                                 : null}
                             {canDo( 'delete', post.user.id ) === true ?
                                 <Button
-                                    onClick={() => { deletePostAction( dispatch, post.id ); }}
+                                    onClick={() => { deletePostAction( userDispatch, post.id ); }}
                                     bg={colorMode === "light" ? "gray.800" : "gray.200"}
                                     color={colorMode === "light" ? "gray.200" : "gray.800"}
                                     _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.300" }}
