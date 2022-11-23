@@ -12,7 +12,7 @@ import { useUserDispatch, useUserSelector } from "../../index";
 function Post () {
     const userDispatch = useUserDispatch();
     const showEdit = useUserSelector( state => state.user.showEdit );
-    const posts = useUserSelector( state => state.user.post );
+    const posts = useUserSelector( state => state.user.posts );
     const { colorMode } = useColorMode();
 
     useEffect( () => {

@@ -7,9 +7,10 @@ export const getData = ( dispatch ) => {
     try {
         let token = cookies.load( "token" );
         if ( token !== undefined || token !== null || token !== "" ) {
-            axios.get( `${process.env.REACT_APP_SERVER_URL}/post`, {}
-                , {
-                    Headers: {
+            axios.get( `${process.env.REACT_APP_SERVER_URL}/post`,
+                // {}, 
+                {
+                    headers: {
                         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InphaWRhbHNoaWJpIiwiaWF0IjoxNjY5MDYxNTcyfQ.wIiAqU6raJ1mD3E9KxFua1366Ej9INvjKp35Jnwz0ok`
                     }
                 } )
