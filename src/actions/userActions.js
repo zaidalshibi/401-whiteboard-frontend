@@ -56,6 +56,7 @@ export const addPostAction = ( payload, dispatch ) => {
             payload.target.title.value = "";
             payload.target.content.value = "";
             payload.target.img.value = "";
+            getData( dispatch );
         } );
     }
     catch ( error ) {
@@ -105,6 +106,7 @@ export const deletePostAction = ( dispatch, payload ) => {
             } ).then( ( res ) => {
                 console.log( 'post deleted' );
                 dispatch( deletePost( payload ) );
+                getData( dispatch );
             } )
                 .catch( ( err ) => {
                     console.log( err );
@@ -127,6 +129,7 @@ export const addCommentAction = ( payload, postId, dispatch ) => {
             .then( ( res ) => {
                 console.log( 'comment added' );
                 dispatch( addComment( res.data ) );
+                getData( dispatch );
                 payload.target.content.value = "";
             } )
             .catch( ( err ) => {
